@@ -25,17 +25,24 @@ ECHO TITLE QUICK COPY >> QC.cmd
 ECHO COLOR 5C >> QC.cmd
 ECHO ECHO Running as: >>QC.cmd
 ECHO WHOAMI >> QC.cmd
+ECHO ECHO. >> QC.cmd
+ECHO ECHO Listing Drives  >> QC.cmd
 ECHO :ListDisk  >> QC.cmd
 ECHO wmic logicaldisk get deviceid, volumename, description, size, filesystem, freespace  >> QC.cmd
-ECHO SET /p source=Choose Source Drive [type leter without colon] : >> QC.cmd
-ECHO SET /p dest=Choose Destination Drive [type leter without colon] : >> QC.cmd
+ECHO ECHO.
+ECHO ECHO.
+ECHO ECHO Supports full paths with spaces and special characters. No \ required at end of path.
+ECHO ECHO If doing root of drive, you do need : after drive letter [eg C:]
+ECHO.
+ECHO SET /p source=Source Path [eg: C:\user\bob] : >> QC.cmd
+ECHO SET /p dest=Destination Path [Folders will be created if non existant [eg: D:\bobs files] ] : >> QC.cmd
 ECHO ECHO. >> QC.cmd
 ECHO ECHO will run: >> QC.cmd
-ECHO ECHO XCOPY %%source%%: %%dest%%: /S /E /H /C /Y >> QC.cmd
+ECHO ECHO XCOPY ^"%%source%%^" ^"%%dest%%^" /S /E /H /C /I /Y >> QC.cmd
 ECHO ECHO. >> QC.cmd
 ECHO ECHO Ctrl-c to cancel or >> QC.cmd
 ECHO PAUSE >> QC.cmd
-ECHO XCOPY %%source%%: %%dest%%: /S /E /H /C /Y >> QC.cmd
+ECHO XCOPY ^"%%source%%^" ^"%%dest%%^" /S /E /H /C /I /Y >> QC.cmd
 ECHO ECHO Copy Complete >> QC.cmd
 ECHO PAUSE >> QC.cmd
 ECHO DEL %currentdirectory:~2,100%\QC.CMD >> QC.cmd
@@ -54,4 +61,3 @@ goto :eof
 :payload
 ::Run as SYSTEM
 psexec -i -s -d %currentdirectory:~2,100%\qc.cmd /noeula
-
